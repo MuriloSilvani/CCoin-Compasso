@@ -1,14 +1,14 @@
 ﻿-- ====== User ======
 
 -- Como Usuário ou Administrador, desejo efetuar Login na plataforma.
-SELECT  us.id, us.nome, us.nivel_acesso,
-        us.cargo, us.unidade, us.credito,
+SELECT  us.id, us.nome, ni.descricao,
+        ca.descricao, CONCAT(un.cidade, '/', un.uf, ' - ', un.endereco) AS unidade, us.credito,
         us.responsavel_unidade FROM liveb09.usuarios us
+    JOIN liveb09.niveis_acesso ni ON ni.id = us.nivel_acesso
+    JOIN liveb09.cargos ca ON ca.id = us.cargo
+    JOIN liveb09.unidades un ON un.id = us.unidade
     WHERE (us.login = 'username' OR us.email = 'username')
-    AND us.senha = '123'
-    AND us.nivel_acesso IN (SELECT ni.id FROM liveb09.niveis_acesso ni)
-    AND us.cargo IN (SELECT ca.id FROM liveb09.cargos ca)
-    AND us.unidade IN (SELECT un.id FROM liveb09.unidades un);
+    AND us.senha = '123';
 
 -- Como Usuário ou Administrador, desejo efetuar Logout na plataforma.
 

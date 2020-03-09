@@ -1,4 +1,4 @@
-/* Usuarios */
+﻿/* Usuarios */
 
 CREATE TABLE cargos(
   id INTEGER PRIMARY KEY AUTO_INCREMENT,

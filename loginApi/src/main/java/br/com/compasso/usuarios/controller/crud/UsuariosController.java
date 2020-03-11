@@ -1,4 +1,4 @@
-package br.com.compasso.usuarios.controller;
+package br.com.compasso.usuarios.controller.crud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,13 +27,14 @@ import br.com.compasso.usuarios.repository.Niveis_acessoRepository;
 import br.com.compasso.usuarios.repository.UnidadesRepository;
 import br.com.compasso.usuarios.repository.UsuariosRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/usuarios")
 public class UsuariosController {
 
 	@Autowired
 	private UsuariosRepository usuariosRepository;
-	
+
 	@Autowired
 	private Niveis_acessoRepository niveis_acessoRepository;
 
@@ -47,7 +49,7 @@ public class UsuariosController {
 
 		List<Usuarios> usuariosFind = usuariosRepository.findAll();
 		List<UsuariosDto> usuarios = new ArrayList<UsuariosDto>();
-		
+
 		for (Usuarios us : usuariosFind) {
 			usuarios.add(new UsuariosDto(us));
 		}
@@ -70,14 +72,12 @@ public class UsuariosController {
 
 	@PostMapping("")
 	@Transactional
-	public ResponseEntity<UsuariosDto> cadastraUsuarios(@RequestBody  UsuariosForm form) {
+	public ResponseEntity<UsuariosDto> cadastraUsuarios(@RequestBody UsuariosForm form) {
 
-		Usuarios usuarioNovo = usuariosRepository.save(new Usuarios(form.getLogin(), form.getEmail(), form.getSenha(),
-				form.getNome(), form.getId_nivel_acesso(), form.getId_cargo(), form.getId_unidade(), 
-				form.isResponsavel_unidade(), niveis_acessoRepository, cargosRepository, unidadesRepository));
+		Usuarios usuarioNovo = usuariosRepository.save(new Usuarios(form, niveis_acessoRepository, cargosRepository, unidadesRepository));
 
 		UsuariosDto usuario = new UsuariosDto(usuarioNovo);
-		
+
 		return ResponseEntity.created(null).body(usuario);
 
 	}
@@ -91,8 +91,9 @@ public class UsuariosController {
 
 		if (usuario.isPresent()) {
 
-			UsuariosDto usuarioNova = new UsuariosDto(form.atualizar(id_usuario, usuariosRepository));
-			
+			UsuariosDto usuarioNova = new UsuariosDto(form.atualizar(usuario.get(), usuariosRepository,
+					niveis_acessoRepository, cargosRepository, unidadesRepository));
+
 			return ResponseEntity.ok().body(usuarioNova);
 		}
 

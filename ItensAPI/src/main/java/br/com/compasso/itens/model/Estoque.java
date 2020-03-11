@@ -1,5 +1,7 @@
 package br.com.compasso.itens.model;
 
+import java.util.Optional;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,13 +38,24 @@ public class Estoque {
 
 	public Estoque(EstoqueForm estoque, ItensRepository itensRepository, Tipos_itensRepository tipos_itensRepository) {
 
-		this.id_item = estoque.getId_item();
-		this.id_tipo_item = estoque.getId_tipo_item();
+		Optional<Itens> item = itensRepository.findById(estoque.getId_item());
+		Optional<Tipos_itens> tipos_itens = tipos_itensRepository.findById(estoque.getId_tipo_item());
+
+		this.id_item = item.get();
+		this.id_tipo_item = tipos_itens.get();
 		this.qtde_reservado = estoque.getQtde_reservado();
 		this.qtde_disponivel = estoque.getQtde_disponivel();
 		this.valor = estoque.getValor();
 	}
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public Itens getId_item() {
 		return id_item;
 	}

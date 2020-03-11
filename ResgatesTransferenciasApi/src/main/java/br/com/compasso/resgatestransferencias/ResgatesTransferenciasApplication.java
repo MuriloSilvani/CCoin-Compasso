@@ -1,4 +1,4 @@
-package br.com.compasso.itens;
+package br.com.compasso.resgatestransferencias;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,10 +7,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-public class ItensApplication {
-	
+public class ResgatesTransferenciasApplication {
+
 	public static void main(String[] args) {
-		
-		SpringApplication.run(ItensApplication.class, args);
+
+		SpringApplication.run(ResgatesTransferenciasApplication.class, args);
 	}
 }

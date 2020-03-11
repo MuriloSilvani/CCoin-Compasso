@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.com.compasso.usuarios.model.Cargos;
@@ -18,15 +17,6 @@ import br.com.compasso.usuarios.repository.UnidadesRepository;
 import br.com.compasso.usuarios.repository.UsuariosRepository;
 
 public class UsuariosForm {
-
-	@Autowired
-	private Niveis_acessoRepository niveis_acessoRepository;
-
-	@Autowired
-	private CargosRepository cargosRepository;
-
-	@Autowired
-	private UnidadesRepository unidadesRepository;
 
 	@NotNull
 	@NotEmpty
@@ -41,13 +31,10 @@ public class UsuariosForm {
 	@NotEmpty
 	private String nome;
 	@NotNull
-	@NotEmpty
 	private Long id_nivel_acesso;
 	@NotNull
-	@NotEmpty
 	private Long id_cargo;
 	@NotNull
-	@NotEmpty
 	private Long id_unidade;
 	@NotNull
 	private boolean responsavel_unidade;
@@ -84,36 +71,32 @@ public class UsuariosForm {
 		return responsavel_unidade;
 	}
 
-	public Usuarios atualizar(Long id_usuario, UsuariosRepository usuariosRepository) {
+	public Usuarios atualizar(Usuarios usuario, UsuariosRepository usuariosRepository,
+			Niveis_acessoRepository niveis_acessoRepository, CargosRepository cargosRepository,
+			UnidadesRepository unidadesRepository) {
 
-		Optional<Usuarios> usuarioFind = usuariosRepository.findById(id_usuario);
-
-		if (usuarioFind.isPresent()) {
-			Usuarios usuario = usuarioFind.get();
-
-//			Optional<Niveis_acesso> nivel_acesso = niveis_acessoRepository.findById(this.id_nivel_acesso);
-//			if (nivel_acesso.isPresent()) {
-//				usuario.setId_nivel_acesso(nivel_acesso.get());
-//			}
-//			Optional<Cargos> cargo = cargosRepository.findById(this.id_cargo);
-//			if (cargo.isPresent()) {
-//				usuario.setId_cargo(cargo.get());
-//			}
-//			Optional<Unidades> unidade = unidadesRepository.findById(this.id_unidade);
-//			if (unidade.isPresent()) {
-//				usuario.setId_unidade(unidade.get());
-//			}
-
-			usuario.setLogin(this.login);
-			usuario.setEmail(this.email);
-			usuario.setSenha(new BCryptPasswordEncoder().encode(this.senha));
-			usuario.setNome(this.nome);
-			usuario.setResponsavel_unidade(this.responsavel_unidade);
-
-			return usuario;
+		Optional<Niveis_acesso> nivel_acesso = niveis_acessoRepository.findById(this.id_nivel_acesso);
+		if(nivel_acesso.isPresent()) {
+			usuario.setId_nivel_acesso(nivel_acesso.get());
+		}
+		
+		Optional<Cargos> cargo = cargosRepository.findById(this.id_cargo);
+		if (cargo.isPresent()) {
+			usuario.setId_cargo(cargo.get());
+		}
+			
+		Optional<Unidades> unidade = unidadesRepository.findById(this.id_unidade);
+		if (unidade.isPresent()) {
+			usuario.setId_unidade(unidade.get());
 		}
 
-		return null;
+		usuario.setLogin(this.login);
+		usuario.setEmail(this.email);
+		usuario.setSenha(new BCryptPasswordEncoder().encode(this.senha));
+		usuario.setNome(this.nome);
+		usuario.setResponsavel_unidade(this.responsavel_unidade);
+
+		return usuario;
 
 	}
 

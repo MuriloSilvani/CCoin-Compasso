@@ -1,4 +1,4 @@
-package br.com.compasso.itens.controller;
+package br.com.compasso.itens.controller.crud;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import br.com.compasso.itens.form.ItensForm;
 import br.com.compasso.itens.model.Itens;
 import br.com.compasso.itens.repository.ItensRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/itens")
 public class ItensController {

@@ -9,5 +9,4 @@ import br.com.compasso.usuarios.model.Usuarios;
 public interface UsuariosRepository extends JpaRepository<Usuarios, Long> {
 
 	Optional<Usuarios> findByLogin(String login);
-
 }

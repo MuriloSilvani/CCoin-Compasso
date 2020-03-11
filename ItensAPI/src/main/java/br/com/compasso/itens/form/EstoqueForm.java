@@ -3,34 +3,27 @@ package br.com.compasso.itens.form;
 import java.util.Optional;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import br.com.compasso.itens.model.Estoque;
 import br.com.compasso.itens.model.Itens;
 import br.com.compasso.itens.model.Tipos_itens;
-import br.com.compasso.itens.repository.EstoqueRepository;
 import br.com.compasso.itens.repository.ItensRepository;
 import br.com.compasso.itens.repository.Tipos_itensRepository;
 
 public class EstoqueForm {
 
 	@NotNull
-	@NotEmpty
 	private Long id_item;
 	@NotNull
-	@NotEmpty
 	private Long id_tipo_item;
 	@NotNull
-	@NotEmpty
 	@Min(0)
 	private int qtde_reservado;
 	@NotNull
-	@NotEmpty
 	@Min(0)
 	private int qtde_disponivel;
 	@NotNull
-	@NotEmpty
 	@Min(0)
 	private float valor;
 
@@ -54,7 +47,7 @@ public class EstoqueForm {
 		return valor;
 	}
 	
-	public Estoque atualizar(Estoque estoque, EstoqueRepository estoqueRepository, ItensRepository itensRepository, Tipos_itensRepository tipos_itensRepository) {
+	public Estoque atualizar(Estoque estoque, ItensRepository itensRepository, Tipos_itensRepository tipos_itensRepository) {
 
 		Optional<Itens> item = itensRepository.findById(this.id_item);
 		Optional<Tipos_itens> tipo_item = tipos_itensRepository.findById(this.id_tipo_item);

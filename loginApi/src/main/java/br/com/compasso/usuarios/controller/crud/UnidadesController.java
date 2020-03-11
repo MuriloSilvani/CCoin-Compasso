@@ -1,4 +1,4 @@
-package br.com.compasso.usuarios.controller;
+package br.com.compasso.usuarios.controller.crud;
 
 import java.util.Optional;
 
@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import br.com.compasso.usuarios.form.UnidadesForm;
 import br.com.compasso.usuarios.model.Unidades;
 import br.com.compasso.usuarios.repository.UnidadesRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/unidades")
 public class UnidadesController {

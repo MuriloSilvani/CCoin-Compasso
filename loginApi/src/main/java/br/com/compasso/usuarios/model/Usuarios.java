@@ -19,6 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import br.com.compasso.usuarios.form.UsuariosForm;
 import br.com.compasso.usuarios.repository.CargosRepository;
 import br.com.compasso.usuarios.repository.Niveis_acessoRepository;
 import br.com.compasso.usuarios.repository.UnidadesRepository;
@@ -54,25 +55,24 @@ public class Usuarios implements UserDetails {
 
 	}
 
-	public Usuarios(String login, String email, String senha, String nome, Long id_nivel_acesso, Long id_cargo,
-			Long id_unidade, boolean responsavel_unidade, Niveis_acessoRepository niveis_acessoRepository,
+	public Usuarios(UsuariosForm form, Niveis_acessoRepository niveis_acessoRepository,
 			CargosRepository cargosRepository, UnidadesRepository unidadesRepository) {
 
-		Optional<Niveis_acesso> nivel_acesso = niveis_acessoRepository.findById(id_nivel_acesso);
-		Optional<Cargos> cargo = cargosRepository.findById(id_cargo);
-		Optional<Unidades> unidade = unidadesRepository.findById(id_unidade);
+		Optional<Niveis_acesso> nivel_acesso = niveis_acessoRepository.findById(form.getId_nivel_acesso());
+		Optional<Cargos> cargo = cargosRepository.findById(form.getId_cargo());
+		Optional<Unidades> unidade = unidadesRepository.findById(form.getId_unidade());
 
 		if (nivel_acesso.isPresent() && cargo.isPresent() && unidade.isPresent()) {
 
-			this.login = login;
-			this.email = email;
-			this.senha = new BCryptPasswordEncoder().encode(senha);
-			this.nome = nome;
+			this.login = form.getLogin();
+			this.email = form.getEmail();
+			this.senha = new BCryptPasswordEncoder().encode(form.getSenha());
+			this.nome = form.getNome();
 			this.id_nivel_acesso = nivel_acesso.get();
 			this.id_cargo = cargo.get();
 			this.id_unidade = unidade.get();
 			this.credito = 0;
-			this.responsavel_unidade = responsavel_unidade;
+			this.responsavel_unidade = form.isResponsavel_unidade();
 
 		}
 	}

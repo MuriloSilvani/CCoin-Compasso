@@ -9,11 +9,11 @@
 		<version>2.2.4.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.com.compasso.itens</groupId>
-	<artifactId>Itens</artifactId>
+	<groupId>br.com.compasso.resgatestransferencias</groupId>
+	<artifactId>ResgatesTransferencias</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Itens</name>
-	<description>Api de itens Compasso Coin</description>
+	<name>Resgates Transferencias</name>
+	<description>Api de resgates e transferencias</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -32,14 +32,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>

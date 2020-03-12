@@ -27,66 +27,67 @@ public class TransferenciasController {
 
 	@Autowired
 	private TransferenciasRepository transferenciasRepository;
-	
+
 	@GetMapping("")
-	public ResponseEntity<List<Transferencias>> listarTransferencias(){
-		
+	public ResponseEntity<List<Transferencias>> listarTransferencias() {
+
 		List<Transferencias> transferencia = transferenciasRepository.findAll();
-		
+
 		return ResponseEntity.ok(transferencia);
 	}
-	
+
 	@GetMapping("{id_transferencia}")
-	public ResponseEntity<Transferencias> listarTransferencia(@PathVariable Long id_transferencia){
-		
+	public ResponseEntity<Transferencias> listarTransferencia(@PathVariable Long id_transferencia) {
+
 		Optional<Transferencias> transferencia = transferenciasRepository.findById(id_transferencia);
-		
-		if(transferencia.isPresent()) {
-						
+
+		if (transferencia.isPresent()) {
+
 			return ResponseEntity.ok(transferencia.get());
 		}
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
-	@PostMapping("")
+
+	@PostMapping(consumes = "application/json", produces = "application/json")
 	@Transactional
-	public ResponseEntity<Transferencias> cadastrarTransferencia(@RequestBody @Valid TransferenciasForm form){
-		
+	public ResponseEntity<Transferencias> cadastrarTransferencia(@RequestBody @Valid TransferenciasForm form) {
+
 		Transferencias transferencia = transferenciasRepository.save(new Transferencias(form));
-		
+
 		return ResponseEntity.created(null).body(transferencia);
 	}
-	
+
 	@PutMapping("{id_transferencia}")
 	@Transactional
-	public ResponseEntity<Transferencias> editarTransferencia(@PathVariable Long id_transferencia, @RequestBody @Valid TransferenciasForm form){
-		
+	public ResponseEntity<Transferencias> editarTransferencia(@PathVariable Long id_transferencia,
+			@RequestBody @Valid TransferenciasForm form) {
+
 		Optional<Transferencias> transferenciaFind = transferenciasRepository.findById(id_transferencia);
-		
-		if(transferenciaFind.isPresent()) {
-			
+
+		if (transferenciaFind.isPresent()) {
+
 			Transferencias transferencia = form.atualizar(transferenciaFind.get());
-			
+
 			return ResponseEntity.ok(transferencia);
 		}
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@DeleteMapping("{id_transferencia}")
 	@Transactional
-	public ResponseEntity<Transferencias> deletarTransferencia(@PathVariable Long id_transferencia){
-		
+	public ResponseEntity<Transferencias> deletarTransferencia(@PathVariable Long id_transferencia) {
+
 		Optional<Transferencias> transferencia = transferenciasRepository.findById(id_transferencia);
-		
-		if(transferencia.isPresent()) {
-			
+
+		if (transferencia.isPresent()) {
+
 			transferenciasRepository.deleteById(id_transferencia);
-			
+
 			return ResponseEntity.ok(null);
 		}
-		
+
 		return ResponseEntity.notFound().build();
 	}
 }

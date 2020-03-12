@@ -34,13 +34,13 @@ public class ExtratoController {
 		List<Transferencias> transferencias = transferenciasRepository.buscaTransferenciasDeEntrada(id_usuario);
 
 		List<ExtratoDto> entradas = new ArrayList<ExtratoDto>();
-
-		for (Transferencias transferencia : transferencias) {
+		
+		transferencias.forEach(transferencia -> {
 			
 			Status_requerimentos status_requerimento = status_requerimentosRepository.getOne(transferencia.getId());
 			
 			entradas.add(new ExtratoDto(id_usuario, transferencia, status_requerimento));
-		}
+		});
 
 		return ResponseEntity.ok(entradas);
 	}

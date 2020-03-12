@@ -31,6 +31,7 @@ public class Estoque {
 	private int qtde_reservado;
 	private int qtde_disponivel;
 	private float valor;
+	private boolean ativo;
 
 	public Estoque() {
 
@@ -46,6 +47,7 @@ public class Estoque {
 		this.qtde_reservado = estoque.getQtde_reservado();
 		this.qtde_disponivel = estoque.getQtde_disponivel();
 		this.valor = estoque.getValor();
+		this.ativo = true;
 	}
 
 	public Long getId() {
@@ -94,6 +96,14 @@ public class Estoque {
 
 	public void setValor(float valor) {
 		this.valor = valor;
+	}
+
+	public boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 }

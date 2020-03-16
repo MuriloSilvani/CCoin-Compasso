@@ -1,5 +1,7 @@
 package br.com.compasso.usuarios.form;
 
+import java.util.Optional;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -18,10 +20,16 @@ public class NiveisAcessoForm {
 
 	public Niveis_acesso atualizar(Long id_nivel_acesso, Niveis_acessoRepository niveis_acessoRepository) {
 
-		Niveis_acesso nivel_acesso = niveis_acessoRepository.getOne(id_nivel_acesso);
+		Optional<Niveis_acesso> nivel_acessoFind = niveis_acessoRepository.findById(id_nivel_acesso);
 
-		nivel_acesso.setDescricao(this.descricao);
-
-		return nivel_acesso;
+		if(nivel_acessoFind.isPresent()) {
+			
+			Niveis_acesso nivel_acesso = nivel_acessoFind.get();
+			nivel_acesso.setDescricao(this.descricao);
+	
+			return nivel_acesso;
+		}
+	
+		return null;
 	}
 }

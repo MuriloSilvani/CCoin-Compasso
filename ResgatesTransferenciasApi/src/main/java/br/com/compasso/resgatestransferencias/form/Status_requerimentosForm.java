@@ -17,6 +17,31 @@ public class Status_requerimentosForm {
 	@NotNull
 	private int id_status;
 
+	public Status_requerimentosForm() {
+		
+	}
+
+	public Status_requerimentosForm(Long id_resgate, Long id_transferencia, int id_status) {
+		
+		this.id_resgate = id_resgate;
+		this.id_transferencia = id_transferencia;
+		this.id_status = id_status;
+	}
+
+	public Status_requerimentosForm(Long id_transferencia, int id_status) {
+		
+		this.id_resgate = null;
+		this.id_transferencia = id_transferencia;
+		this.id_status = id_status;
+	}
+
+	public Status_requerimentosForm(int id_status, Long id_resgate) {
+		
+		this.id_resgate = id_resgate;
+		this.id_transferencia = null;
+		this.id_status = id_status;
+	}
+
 	public Long getId_resgate() {
 		return id_resgate;
 	}

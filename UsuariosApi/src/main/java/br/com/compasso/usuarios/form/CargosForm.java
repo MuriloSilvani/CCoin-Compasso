@@ -1,5 +1,7 @@
 package br.com.compasso.usuarios.form;
 
+import java.util.Optional;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -18,11 +20,17 @@ public class CargosForm {
 
 	public Cargos atualizar(Long id_cargo, CargosRepository cargosRepository) {
 
-		Cargos cargo = cargosRepository.getOne(id_cargo);
+		Optional<Cargos> cargoFind = cargosRepository.findById(id_cargo);
 
-		cargo.setDescricao(this.descricao);
+		if (cargoFind.isPresent()) {
+			
+			Cargos cargo = cargoFind.get();
+			cargo.setDescricao(this.descricao);
 
-		return cargo;
+			return cargo;
+		}
+
+		return null;
 	}
 
 }

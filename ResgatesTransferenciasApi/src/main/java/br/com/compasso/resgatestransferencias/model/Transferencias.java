@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.Valid;
 
 import br.com.compasso.resgatestransferencias.form.TransferenciasForm;
 
@@ -23,7 +22,7 @@ public class Transferencias {
 	public Transferencias() {
 	}
 
-	public Transferencias(@Valid TransferenciasForm form) {
+	public Transferencias(TransferenciasForm form) {
 		
 		this.usuario_origem = form.getUsuario_origem();
 		this.usuario_destino = form.getUsuario_destino();

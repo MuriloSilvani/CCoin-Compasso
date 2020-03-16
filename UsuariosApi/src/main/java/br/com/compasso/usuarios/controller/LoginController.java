@@ -45,5 +45,5 @@ public class LoginController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-	
+
 }

@@ -63,7 +63,7 @@ public class catalogoController {
 	@PutMapping("/removerDisponivel/{id_estoque}")
 	@Transactional
 	public ResponseEntity<CatalogoDto> removerEstoque(@PathVariable Long id_estoque, @RequestBody @Valid CatalogoForm form) {
-		
+				
 		Estoque estoque = estoqueRepository.getOne(id_estoque);
 		if(form.removeDisponivel(estoque)) {
 			

@@ -9,6 +9,13 @@ public class ResgatesForm {
 	@NotNull
 	private Long id_usuario;
 
+	public ResgatesForm() {
+	}
+
+	public ResgatesForm(Long id_usuario) {
+		this.id_usuario = id_usuario;
+	}
+	
 	public Long getId_usuario() {
 		return id_usuario;
 	}

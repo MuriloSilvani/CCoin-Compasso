@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.compasso.resgatestransferencias.config.service.UsuariosService;
 import br.com.compasso.resgatestransferencias.dto.ExtratoDto;
 import br.com.compasso.resgatestransferencias.model.Status_requerimentos;
 import br.com.compasso.resgatestransferencias.model.Transferencias;
@@ -23,6 +24,9 @@ import br.com.compasso.resgatestransferencias.repository.TransferenciasRepositor
 public class ExtratoController {
 
 	@Autowired
+	private UsuariosService usuariosService;
+
+	@Autowired
 	private TransferenciasRepository transferenciasRepository;
 
 	@Autowired
@@ -31,17 +35,23 @@ public class ExtratoController {
 	@GetMapping("/{id_usuario}")
 	public ResponseEntity<List<ExtratoDto>> consultaExtrato(@PathVariable Long id_usuario) {
 
-		List<Transferencias> transferencias = transferenciasRepository.buscaTransferenciasDeEntrada(id_usuario);
+		if (usuariosService.findUsuario(id_usuario)) {
 
-		List<ExtratoDto> entradas = new ArrayList<ExtratoDto>();
+			List<Transferencias> transferencias = transferenciasRepository.buscaTransferenciasDeEntrada(id_usuario);
+			List<ExtratoDto> entradas = new ArrayList<ExtratoDto>();
+
+			transferencias.forEach(transferencia -> {
+
+				List<Status_requerimentos> status_requerimento = status_requerimentosRepository
+						.findByTransferencia(transferencia);
+
+				entradas.add(new ExtratoDto(id_usuario, transferencia, status_requerimento.get(0)));
+			});
+
+			return ResponseEntity.ok(entradas);
+		}
 		
-		transferencias.forEach(transferencia -> {
-			
-			Status_requerimentos status_requerimento = status_requerimentosRepository.getOne(transferencia.getId());
-			
-			entradas.add(new ExtratoDto(id_usuario, transferencia, status_requerimento));
-		});
+		return ResponseEntity.notFound().build();
 
-		return ResponseEntity.ok(entradas);
 	}
 }

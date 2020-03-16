@@ -14,19 +14,7 @@ public class ExtratoDto {
 
 	public ExtratoDto(Long id_usuario, Transferencias transferencia, Status_requerimentos status_requerimento) {
 
-		if (status_requerimento.getId_status() == 0) {
-			this.status = "Em analise";
-		} else if (status_requerimento.getId_status() == 1) {
-			this.status = "Aprovado";
-		} else if (status_requerimento.getId_status() == 2) {
-			this.status = "A caminho";
-		} else if (status_requerimento.getId_status() == 3) {
-			this.status = "Entregue";
-		} else if (status_requerimento.getId_status() == 4) {
-			this.status = "Cancelado";
-		} else if (status_requerimento.getId_status() == 5) {
-			this.status = "Reprovado";
-		}
+		this.status = status_requerimento.getId_status();
 
 		if (transferencia.getUsuario_destino() == id_usuario) {
 			this.tipo = "+";

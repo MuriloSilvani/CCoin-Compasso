@@ -1,5 +1,7 @@
 package br.com.compasso.usuarios.form;
 
+import java.util.Optional;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -32,13 +34,19 @@ public class UnidadesForm {
 
 	public Unidades atualizar(Long id_unidade, UnidadesRepository unidadesRepository) {
 
-		Unidades unidade = unidadesRepository.getOne(id_unidade);
+		Optional<Unidades> unidadeFind = unidadesRepository.findById(id_unidade);
 
-		unidade.setUf(this.uf);
-		unidade.setCidade(this.cidade);
-		unidade.setEndereco(this.endereco);
-
-		return unidade;
+		if(unidadeFind.isPresent()) {
+			
+			Unidades unidade = unidadeFind.get();
+			unidade.setUf(this.uf);
+			unidade.setCidade(this.cidade);
+			unidade.setEndereco(this.endereco);
+			
+			return unidade;
+		}
+		
+		return null;
 	}
 
 }

@@ -1,12 +1,13 @@
 package br.com.compasso.itens.form;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import br.com.compasso.itens.model.Estoque;
 
 public class CatalogoForm {
 
-	@NotNull
+	@NotNull @Min(0)
 	private int qtde;
 
 	public int getQtde() {
@@ -21,7 +22,7 @@ public class CatalogoForm {
 
 	public boolean removeDisponivel(Estoque estoque) {
 
-		if(estoque.getQtde_disponivel() >= this.qtde) {		
+		if(estoque.getQtde_disponivel() - estoque.getQtde_reservado() >= this.qtde) {		
 			
 			estoque.setQtde_disponivel(estoque.getQtde_disponivel() - this.qtde);
 			return true;
@@ -31,7 +32,7 @@ public class CatalogoForm {
 	
 	public boolean addReservado(Estoque estoque) {
 
-		if(estoque.getQtde_disponivel() >= estoque.getQtde_reservado()) {		
+		if(estoque.getQtde_disponivel() - estoque.getQtde_reservado() >= this.qtde) {		
 			
 			estoque.setQtde_reservado(estoque.getQtde_reservado() + this.qtde);
 			return true;

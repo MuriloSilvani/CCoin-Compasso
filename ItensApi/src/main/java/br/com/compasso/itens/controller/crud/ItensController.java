@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.compasso.itens.form.ItensForm;
+import br.com.compasso.itens.model.Estoque;
 import br.com.compasso.itens.model.Itens;
+import br.com.compasso.itens.repository.EstoqueRepository;
 import br.com.compasso.itens.repository.ItensRepository;
 
 @CrossOrigin
@@ -28,13 +30,16 @@ import br.com.compasso.itens.repository.ItensRepository;
 public class ItensController {
 
 	@Autowired
-	ItensRepository itensRepository;
+	private ItensRepository itensRepository;
+
+	@Autowired
+	private EstoqueRepository estoqueRepository;
 
 	@GetMapping("")
 	public ResponseEntity<List<Itens>> listarItens() {
 
 		List<Itens> itens = itensRepository.findAll();
-		
+
 		return ResponseEntity.ok(itens);
 	}
 
@@ -46,10 +51,10 @@ public class ItensController {
 		if (item.isPresent()) {
 			return ResponseEntity.ok(item.get());
 		}
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@PostMapping("")
 	@Transactional
 	public ResponseEntity<Itens> cadastrarItem(@RequestBody @Valid Itens form) {
@@ -61,10 +66,10 @@ public class ItensController {
 		}
 
 		Itens novoItem = itensRepository.save(new Itens(form.getDescricao()));
-		
+
 		return ResponseEntity.created(null).body(novoItem);
 	}
-	
+
 	@PutMapping("/{id_item}")
 	@Transactional
 	public ResponseEntity<Itens> editarCargo(@RequestBody @Valid ItensForm form, @PathVariable Long id_item) {
@@ -72,26 +77,38 @@ public class ItensController {
 		Optional<Itens> item = itensRepository.findById(id_item);
 
 		if (item.isPresent()) {
-			
+
 			Itens itemNovo = form.atualizar(item.get(), itensRepository);
-			
+
 			return ResponseEntity.ok(itemNovo);
 		}
-		
+
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@DeleteMapping("/{id_item}")
 	@Transactional
 	public ResponseEntity<Itens> deletarCargo(@PathVariable Long id_item) {
 
 		Optional<Itens> item = itensRepository.findById(id_item);
-		
-		if (item.isPresent()) {
 
-			itensRepository.deleteById(id_item);
+		if (item.isPresent()) {
+			List<Estoque> findAll = estoqueRepository.findAll();
+			int aux = 0;
 			
-			return ResponseEntity.ok().build();
+			for (Estoque estoque : findAll) {
+				if (estoque.getId_item().getId() == item.get().getId()) {
+					aux = 1;
+				}
+			}
+
+			if (aux != 1) {
+
+				itensRepository.deleteById(id_item);
+				return ResponseEntity.ok().build();
+			}
+
+			return ResponseEntity.badRequest().build();
 		}
 
 		return ResponseEntity.notFound().build();

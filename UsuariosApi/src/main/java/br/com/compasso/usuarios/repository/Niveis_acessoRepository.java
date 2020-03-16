@@ -6,6 +6,4 @@ import br.com.compasso.usuarios.model.Niveis_acesso;
 
 public interface Niveis_acessoRepository extends CrudRepository<Niveis_acesso, Long> {
 
-	Niveis_acesso getOne(Long id_nivel_acesso);
-
 }

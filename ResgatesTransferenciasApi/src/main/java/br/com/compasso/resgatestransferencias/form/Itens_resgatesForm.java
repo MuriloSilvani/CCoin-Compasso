@@ -2,10 +2,12 @@ package br.com.compasso.resgatestransferencias.form;
 
 import java.util.Date;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import br.com.compasso.resgatestransferencias.model.Itens_resgates;
+import br.com.compasso.resgatestransferencias.model.Resgates;
 import br.com.compasso.resgatestransferencias.repository.ResgatesRepository;
 
 public class Itens_resgatesForm {
@@ -13,25 +15,42 @@ public class Itens_resgatesForm {
 	@NotNull
 	private Long id_resgate;
 	@NotNull
-	private Long id_item;
-	@NotNull
-	private Long id_tipo_item;
+	private Long id_estoque;
+//	@NotNull
+//	private Long id_item;
+//	@NotNull
+//	private Long id_tipo_item;
 	@NotNull @Min(0)
 	private int qtde;
 	@NotNull
 	private Date data_agendamento;
 
+	public Itens_resgatesForm() {
+		
+	}
+
+	public Itens_resgatesForm(Resgates resgate, @Valid CompraForm form) {
+		
+		this.id_resgate = resgate.getId();
+		this.id_estoque = form.getId_estoque();
+		this.qtde = form.getQtde();
+	}
+
 	public Long getId_resgate() {
 		return id_resgate;
 	}
 
-	public Long getId_item() {
-		return id_item;
+	public Long getId_estoque() {
+		return id_estoque;
 	}
 
-	public Long getId_tipo_item() {
-		return id_tipo_item;
-	}
+//	public Long getId_item() {
+//		return id_item;
+//	}
+//
+//	public Long getId_tipo_item() {
+//		return id_tipo_item;
+//	}
 
 	public int getQtde() {
 		return qtde;
@@ -44,8 +63,9 @@ public class Itens_resgatesForm {
 	public Itens_resgates atualizar(Itens_resgates itens_resgates, ResgatesRepository resgatesRepository) {
 
 		itens_resgates.setId_resgate(resgatesRepository.findById(this.id_resgate).get());
-		itens_resgates.setId_item(this.id_item);
-		itens_resgates.setId_tipo_item(this.id_tipo_item);
+//		itens_resgates.setId_item(this.id_item);
+//		itens_resgates.setId_tipo_item(this.id_tipo_item);
+		itens_resgates.setId_estoque(this.id_estoque);
 		itens_resgates.setQtde(this.qtde);
 		itens_resgates.setData_agendamento(this.data_agendamento);
 		

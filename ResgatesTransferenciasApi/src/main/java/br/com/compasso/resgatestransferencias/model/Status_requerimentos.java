@@ -33,19 +33,42 @@ public class Status_requerimentos {
 	private Date data_status;
 
 	public Status_requerimentos() {
-		
+
 	}
-	
-	public Status_requerimentos(Status_requerimentosForm form, ResgatesRepository resgatesRepository, TransferenciasRepository transferenciasRepository) {
-		
+
+	public Status_requerimentos(Status_requerimentosForm form, ResgatesRepository resgatesRepository,
+			TransferenciasRepository transferenciasRepository) {
+
 		Optional<Resgates> resgate = resgatesRepository.findById(form.getId_resgate());
-		if(resgate.isPresent()) {			
+		if (resgate.isPresent()) {
 			this.id_resgate = resgate.get();
 		}
 		Optional<Transferencias> transferencia = transferenciasRepository.findById(form.getId_transferencia());
-		if(transferencia.isPresent()) {
+		if (transferencia.isPresent()) {
 			this.id_transferencia = transferencia.get();
 		}
+		this.id_status = form.getId_status();
+		this.data_status = new Date();
+	}
+
+	public Status_requerimentos(Status_requerimentosForm form, TransferenciasRepository transferenciasRepository) {
+
+		this.id_resgate = null;
+		Optional<Transferencias> transferencia = transferenciasRepository.findById(form.getId_transferencia());
+		if (transferencia.isPresent()) {
+			this.id_transferencia = transferencia.get();
+		}
+		this.id_status = form.getId_status();
+		this.data_status = new Date();
+	}
+
+	public Status_requerimentos(Status_requerimentosForm form, ResgatesRepository resgatesRepository) {
+
+		Optional<Resgates> resgate = resgatesRepository.findById(form.getId_resgate());
+		if (resgate.isPresent()) {
+			this.id_resgate = resgate.get();
+		}
+		this.id_transferencia = null;
 		this.id_status = form.getId_status();
 		this.data_status = new Date();
 	}
@@ -74,8 +97,22 @@ public class Status_requerimentos {
 		this.id_transferencia = id_transferencia;
 	}
 
-	public int getId_status() {
-		return id_status;
+	public String getId_status() {
+		
+		if (this.id_status == 0) {
+			return "Em analise";
+		} else if (this.id_status == 1) {
+			return "Aprovado";
+		} else if (this.id_status == 2) {
+			return "A caminho";
+		} else if (this.id_status == 3) {
+			return "Entregue";
+		} else if (this.id_status == 4) {
+			return "Cancelado";
+		} else if (this.id_status == 5) {
+			return "Reprovado";
+		}
+		return "Erro";
 	}
 
 	public void setId_status(int id_status) {

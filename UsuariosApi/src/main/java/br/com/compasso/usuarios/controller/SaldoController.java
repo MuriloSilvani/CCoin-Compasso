@@ -76,7 +76,7 @@ public class SaldoController {
 		return ResponseEntity.notFound().build();
 	}
 
-	@PutMapping(value = "/transferencia/{id_usuario}", consumes = "application/json", produces = "application/json")
+	@PutMapping("/transferencia/{id_usuario}")
 	@Transactional
 	public ResponseEntity<TransferenciaDto> transferencia(@PathVariable Long id_usuario,
 			@Valid @RequestBody TransferenciaForm form) {
@@ -88,8 +88,7 @@ public class SaldoController {
 
 			boolean transferencia = form.transferencia(usuario_destino.get(), usuario_origem.get());
 
-			return ResponseEntity.ok(new TransferenciaDto(usuario_origem.get().getCredito(),
-					usuario_destino.get().getId(), transferencia));
+			return ResponseEntity.ok(new TransferenciaDto(usuario_origem.get().getCredito(), transferencia));
 		}
 
 		return ResponseEntity.notFound().build();

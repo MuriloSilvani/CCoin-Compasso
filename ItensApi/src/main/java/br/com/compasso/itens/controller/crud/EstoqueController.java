@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.compasso.itens.form.EstoqueForm;
 import br.com.compasso.itens.model.Estoque;
+import br.com.compasso.itens.model.Itens;
+import br.com.compasso.itens.model.Tipos_itens;
 import br.com.compasso.itens.repository.EstoqueRepository;
 import br.com.compasso.itens.repository.ItensRepository;
 import br.com.compasso.itens.repository.Tipos_itensRepository;
@@ -66,10 +68,16 @@ public class EstoqueController {
 
 		// buscar se ja existe com o mesmo item e tipo de item pra so aumentar o disponivel ou algo assim
 
-		Estoque estoque = estoqueRepository.save(new Estoque(form, itensRepository, tipos_itensRepository));
+		Optional<Itens> item = itensRepository.findById(form.getId_item());
+		Optional<Tipos_itens> tipo_item = tipos_itensRepository.findById(form.getId_tipo_item());
 		
-		return ResponseEntity.created(null).body(estoque);
-
+		if(item.isPresent() && tipo_item.isPresent()) {
+			
+			Estoque estoque = estoqueRepository.save(new Estoque(form, itensRepository, tipos_itensRepository));
+			return ResponseEntity.created(null).body(estoque);
+		}
+		
+		return ResponseEntity.notFound().build();
 	}
 
 	@PutMapping("/{id_estoque}")

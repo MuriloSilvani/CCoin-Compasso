@@ -29,7 +29,7 @@ public class CargosController {
 	@Autowired
 	private CargosRepository cargosRepository;
 
-	@GetMapping(value = "")
+	@GetMapping("")
 	public ResponseEntity<Iterable<Cargos>> listarCargos() {
 
 		Iterable<Cargos> cargos = cargosRepository.findAll();

@@ -11,8 +11,20 @@ public class TransferenciasForm {
 	private Long usuario_origem;
 	@NotNull
 	private Long usuario_destino;
-	@NotNull @Min(0)
+	@NotNull
+	@Min(0)
 	private int valor;
+
+	public TransferenciasForm() {
+
+	}
+
+	public TransferenciasForm(Long usuario_origem, TransfereForm form) {
+		
+		this.usuario_origem = usuario_origem;
+		this.usuario_destino = form.getUsuario_destino();
+		this.valor = form.getValor();
+	}
 
 	public Long getUsuario_origem() {
 		return usuario_origem;
@@ -27,11 +39,11 @@ public class TransferenciasForm {
 	}
 
 	public Transferencias atualizar(Transferencias transferencia) {
-		
+
 		transferencia.setUsuario_destino(this.usuario_destino);
 		transferencia.setUsuario_origem(this.usuario_origem);
 		transferencia.setValor(this.valor);
-		
+
 		return transferencia;
 	}
 

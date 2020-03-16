@@ -24,8 +24,9 @@ public class Itens_resgates {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_resgate", referencedColumnName = "id")
 	private Resgates id_resgate;
-	private Long id_item;
-	private Long id_tipo_item;
+	private Long id_estoque;
+//	private Long id_item;
+//	private Long id_tipo_item;
 	private int qtde;
 	private Date data_agendamento;
 
@@ -35,8 +36,9 @@ public class Itens_resgates {
 	public Itens_resgates(Itens_resgatesForm form, ResgatesRepository resgatesRepository) {
 		
 		this.id_resgate = resgatesRepository.findById(form.getId_resgate()).get();
-		this.id_item = form.getId_item();
-		this.id_tipo_item = form.getId_tipo_item();
+//		this.id_item = form.getId_item();
+//		this.id_tipo_item = form.getId_tipo_item();
+		this.id_estoque = form.getId_estoque();
 		this.qtde = form.getQtde();
 		this.data_agendamento = form.getData_agendamento();
 	}
@@ -57,21 +59,29 @@ public class Itens_resgates {
 		this.id_resgate = id_resgate;
 	}
 
-	public Long getId_item() {
-		return id_item;
+	public Long getId_estoque() {
+		return id_estoque;
 	}
 
-	public void setId_item(Long id_item) {
-		this.id_item = id_item;
+	public void setId_estoque(Long id_estoque) {
+		this.id_estoque = id_estoque;
 	}
 
-	public Long getId_tipo_item() {
-		return id_tipo_item;
-	}
-
-	public void setId_tipo_item(Long id_tipo_item) {
-		this.id_tipo_item = id_tipo_item;
-	}
+//	public Long getId_item() {
+//		return id_item;
+//	}
+//
+//	public void setId_item(Long id_item) {
+//		this.id_item = id_item;
+//	}
+//
+//	public Long getId_tipo_item() {
+//		return id_tipo_item;
+//	}
+//
+//	public void setId_tipo_item(Long id_tipo_item) {
+//		this.id_tipo_item = id_tipo_item;
+//	}
 
 	public int getQtde() {
 		return qtde;

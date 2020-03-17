@@ -16,11 +16,11 @@ public class TipoItemForm {
 		return descricao;
 	}
 
-	public TipoItem atualizar(TipoItem tipo_item, TipoItemRepository tipoItemRepository) {
+	public TipoItem atualizar(TipoItem tipoItem, TipoItemRepository tipoItemRepository) {
 		
-		tipo_item.setDescricao(this.descricao);
+		tipoItem.setDescricao(this.descricao);
 		
-		return tipo_item;
+		return tipoItem;
 	}
 
 }

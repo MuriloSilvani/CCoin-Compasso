@@ -68,8 +68,8 @@ public class EstoqueController {
 
 		// buscar se ja existe com o mesmo item e tipo de item pra so aumentar o disponivel ou algo assim
 
-		Optional<Item> item = itemRepository.findById(form.getId_item());
-		Optional<TipoItem> tipo_item = tipoItemRepository.findById(form.getId_tipo_item());
+		Optional<Item> item = itemRepository.findById(form.getIdItem());
+		Optional<TipoItem> tipo_item = tipoItemRepository.findById(form.getIdTipoItem());
 		
 		if(item.isPresent() && tipo_item.isPresent()) {
 			

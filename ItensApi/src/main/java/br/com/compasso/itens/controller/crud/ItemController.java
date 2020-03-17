@@ -97,7 +97,7 @@ public class ItemController {
 			int aux = 0;
 			
 			for (Estoque estoque : findAll) {
-				if (estoque.getId_item().getId() == item.get().getId()) {
+				if (estoque.getItem().getId() == item.get().getId()) {
 					aux = 1;
 				}
 			}

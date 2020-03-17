@@ -15,8 +15,8 @@ public class CatalogoDto {
 
 	public CatalogoDto(Estoque item) {
 		this.id = item.getId();
-		this.item = item.getId_item().getDescricao() + " " + item.getId_tipo_item().getDescricao();
-		this.qtde_disponivel = item.getQtde_disponivel() - item.getQtde_reservado();
+		this.item = item.getItem().getDescricao() + " " + item.getTipoItem().getDescricao();
+		this.qtde_disponivel = item.getQuantidadeDisponivel() - item.getQuantidadeReservado();
 		this.valor = item.getValor();
 		this.ativo = true;
 	}
@@ -29,7 +29,7 @@ public class CatalogoDto {
 		return item;
 	}
 
-	public int getQtde_disponivel() {
+	public int getQuantidadeDisponivel() {
 		return qtde_disponivel;
 	}
 

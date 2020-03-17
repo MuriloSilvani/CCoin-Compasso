@@ -12,8 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.com.compasso.itens.form.EstoqueForm;
-import br.com.compasso.itens.repository.ItensRepository;
-import br.com.compasso.itens.repository.Tipos_itensRepository;
+import br.com.compasso.itens.repository.ItemRepository;
+import br.com.compasso.itens.repository.TipoItemRepository;
 
 @Entity
 @Table(name = "estoque")
@@ -24,10 +24,10 @@ public class Estoque {
 	private Long id;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_item", referencedColumnName = "id")
-	private Itens id_item;
+	private Item id_item;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_tipo_item", referencedColumnName = "id")
-	private Tipos_itens id_tipo_item;
+	private TipoItem id_tipo_item;
 	private int qtde_reservado;
 	private int qtde_disponivel;
 	private float valor;
@@ -37,10 +37,10 @@ public class Estoque {
 
 	}
 
-	public Estoque(EstoqueForm estoque, ItensRepository itensRepository, Tipos_itensRepository tipos_itensRepository) {
+	public Estoque(EstoqueForm estoque, ItemRepository itemRepository, TipoItemRepository tipoItemRepository) {
 
-		Optional<Itens> item = itensRepository.findById(estoque.getId_item());
-		Optional<Tipos_itens> tipos_itens = tipos_itensRepository.findById(estoque.getId_tipo_item());
+		Optional<Item> item = itemRepository.findById(estoque.getId_item());
+		Optional<TipoItem> tipos_itens = tipoItemRepository.findById(estoque.getId_tipo_item());
 
 		this.id_item = item.get();
 		this.id_tipo_item = tipos_itens.get();
@@ -58,19 +58,19 @@ public class Estoque {
 		this.id = id;
 	}
 
-	public Itens getId_item() {
+	public Item getId_item() {
 		return id_item;
 	}
 
-	public void setId_item(Itens id_item) {
+	public void setId_item(Item id_item) {
 		this.id_item = id_item;
 	}
 
-	public Tipos_itens getId_tipo_item() {
+	public TipoItem getId_tipo_item() {
 		return id_tipo_item;
 	}
 
-	public void setId_tipo_item(Tipos_itens id_tipo_item) {
+	public void setId_tipo_item(TipoItem id_tipo_item) {
 		this.id_tipo_item = id_tipo_item;
 	}
 

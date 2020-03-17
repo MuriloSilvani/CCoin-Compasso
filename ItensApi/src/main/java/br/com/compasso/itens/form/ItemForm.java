@@ -3,10 +3,10 @@ package br.com.compasso.itens.form;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import br.com.compasso.itens.model.Itens;
-import br.com.compasso.itens.repository.ItensRepository;
+import br.com.compasso.itens.model.Item;
+import br.com.compasso.itens.repository.ItemRepository;
 
-public class ItensForm {
+public class ItemForm {
 
 	@NotNull
 	@NotEmpty
@@ -16,7 +16,7 @@ public class ItensForm {
 		return descricao;
 	}
 
-	public Itens atualizar(Itens itens, ItensRepository itensRepository) {
+	public Item atualizar(Item itens, ItemRepository itemRepository) {
 
 		itens.setDescricao(this.descricao);
 

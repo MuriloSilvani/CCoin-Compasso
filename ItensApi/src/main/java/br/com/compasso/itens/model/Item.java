@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "itens")
-public class Itens {
+public class Item {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +17,11 @@ public class Itens {
 	@Column(unique = true)
 	private String descricao;
 
-	public Itens() {
+	public Item() {
 
 	}
 
-	public Itens(String descricao) {
+	public Item(String descricao) {
 		this.descricao = descricao;
 	}
 

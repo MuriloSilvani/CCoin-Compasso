@@ -18,30 +18,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.compasso.itens.form.Tipos_itensForm;
-import br.com.compasso.itens.model.Tipos_itens;
-import br.com.compasso.itens.repository.Tipos_itensRepository;
+import br.com.compasso.itens.form.TipoItemForm;
+import br.com.compasso.itens.model.TipoItem;
+import br.com.compasso.itens.repository.TipoItemRepository;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/tipos_itens")
-public class Tipos_itensController {
+public class TipoItemController {
 
 	@Autowired
-	Tipos_itensRepository tipos_itensRepository;
+	TipoItemRepository tipoItemRepository;
 
 	@GetMapping("")
-	public ResponseEntity<List<Tipos_itens>> listarItens() {
+	public ResponseEntity<List<TipoItem>> listarItens() {
 
-		List<Tipos_itens> tipos_itens = tipos_itensRepository.findAll();
+		List<TipoItem> tipos_itens = tipoItemRepository.findAll();
 
 		return ResponseEntity.ok(tipos_itens);
 	}
 
 	@GetMapping("/{id_tipo_item}")
-	public ResponseEntity<Tipos_itens> listarItem(@PathVariable Long id_tipo_item) {
+	public ResponseEntity<TipoItem> listarItem(@PathVariable Long id_tipo_item) {
 
-		Optional<Tipos_itens> tipo_item = tipos_itensRepository.findById(id_tipo_item);
+		Optional<TipoItem> tipo_item = tipoItemRepository.findById(id_tipo_item);
 
 		if (tipo_item.isPresent()) {
 			return ResponseEntity.ok(tipo_item.get());
@@ -52,28 +52,28 @@ public class Tipos_itensController {
 
 	@PostMapping("")
 	@Transactional
-	public ResponseEntity<Tipos_itens> cadastrarItem(@RequestBody @Valid Tipos_itensForm form) {
+	public ResponseEntity<TipoItem> cadastrarItem(@RequestBody @Valid TipoItemForm form) {
 
-		Optional<Tipos_itens> tipo_item = tipos_itensRepository.findByDescricao(form.getDescricao());
+		Optional<TipoItem> tipo_item = tipoItemRepository.findByDescricao(form.getDescricao());
 
 		if (tipo_item.isPresent()) {
 			return ResponseEntity.ok(tipo_item.get());
 		}
 
-		Tipos_itens novoTipo_item = tipos_itensRepository.save(new Tipos_itens(form.getDescricao()));
+		TipoItem novoTipo_item = tipoItemRepository.save(new TipoItem(form.getDescricao()));
 		
 		return ResponseEntity.created(null).body(novoTipo_item);
 	}
 
 	@PutMapping("/{id_tipo_item}")
 	@Transactional
-	public ResponseEntity<Tipos_itens> editarCargo(@RequestBody @Valid Tipos_itensForm form, @PathVariable Long id_tipo_item) {
+	public ResponseEntity<TipoItem> editarCargo(@RequestBody @Valid TipoItemForm form, @PathVariable Long id_tipo_item) {
 		
-		Optional<Tipos_itens> tipo_item = tipos_itensRepository.findById(id_tipo_item);
+		Optional<TipoItem> tipo_item = tipoItemRepository.findById(id_tipo_item);
 
 		if (tipo_item.isPresent()) {
 			
-			Tipos_itens tipo_itemNovo = form.atualizar(tipo_item.get(), tipos_itensRepository);
+			TipoItem tipo_itemNovo = form.atualizar(tipo_item.get(), tipoItemRepository);
 			
 			return ResponseEntity.ok(tipo_itemNovo);
 		}
@@ -83,13 +83,13 @@ public class Tipos_itensController {
 
 	@DeleteMapping("/{id_tipo_item}")
 	@Transactional
-	public ResponseEntity<Tipos_itens> deletarCargo(@PathVariable Long id_tipo_item) {
+	public ResponseEntity<TipoItem> deletarCargo(@PathVariable Long id_tipo_item) {
 
-		Optional<Tipos_itens> tipo_item = tipos_itensRepository.findById(id_tipo_item);
+		Optional<TipoItem> tipo_item = tipoItemRepository.findById(id_tipo_item);
 		
 		if (tipo_item.isPresent()) {
 
-			tipos_itensRepository.deleteById(id_tipo_item);
+			tipoItemRepository.deleteById(id_tipo_item);
 			
 			return ResponseEntity.ok().build();
 		}

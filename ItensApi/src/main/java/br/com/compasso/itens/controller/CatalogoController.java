@@ -28,7 +28,7 @@ import br.com.compasso.itens.repository.EstoqueRepository;
 @CrossOrigin
 @RestController
 @RequestMapping("/catalogo")
-public class catalogoController {
+public class CatalogoController {
 
 	@Autowired
 	private EstoqueRepository estoqueRepository;

@@ -6,10 +6,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import br.com.compasso.itens.model.Estoque;
-import br.com.compasso.itens.model.Itens;
-import br.com.compasso.itens.model.Tipos_itens;
-import br.com.compasso.itens.repository.ItensRepository;
-import br.com.compasso.itens.repository.Tipos_itensRepository;
+import br.com.compasso.itens.model.Item;
+import br.com.compasso.itens.model.TipoItem;
+import br.com.compasso.itens.repository.ItemRepository;
+import br.com.compasso.itens.repository.TipoItemRepository;
 
 public class EstoqueForm {
 
@@ -47,10 +47,10 @@ public class EstoqueForm {
 		return valor;
 	}
 	
-	public Estoque atualizar(Estoque estoque, ItensRepository itensRepository, Tipos_itensRepository tipos_itensRepository) {
+	public Estoque atualizar(Estoque estoque, ItemRepository itemRepository, TipoItemRepository tipoItemRepository) {
 
-		Optional<Itens> item = itensRepository.findById(this.id_item);
-		Optional<Tipos_itens> tipo_item = tipos_itensRepository.findById(this.id_tipo_item);
+		Optional<Item> item = itemRepository.findById(this.id_item);
+		Optional<TipoItem> tipo_item = tipoItemRepository.findById(this.id_tipo_item);
 		
 		estoque.setId_item(item.get());
 		estoque.setId_tipo_item(tipo_item.get());

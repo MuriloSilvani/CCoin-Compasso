@@ -3,10 +3,10 @@ package br.com.compasso.itens.form;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import br.com.compasso.itens.model.Tipos_itens;
-import br.com.compasso.itens.repository.Tipos_itensRepository;
+import br.com.compasso.itens.model.TipoItem;
+import br.com.compasso.itens.repository.TipoItemRepository;
 
-public class Tipos_itensForm {
+public class TipoItemForm {
 
 	@NotNull
 	@NotEmpty
@@ -16,7 +16,7 @@ public class Tipos_itensForm {
 		return descricao;
 	}
 
-	public Tipos_itens atualizar(Tipos_itens tipo_item, Tipos_itensRepository tipos_itensRepository) {
+	public TipoItem atualizar(TipoItem tipo_item, TipoItemRepository tipoItemRepository) {
 		
 		tipo_item.setDescricao(this.descricao);
 		

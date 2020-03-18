@@ -100,7 +100,7 @@ public class EstoqueController {
 
 	@DeleteMapping("/{id_estoque}")
 	@Transactional
-	public ResponseEntity<Estoque> deletarEstoque(@PathVariable Long id_estoque) {
+	public ResponseEntity deletarEstoque(@PathVariable Long id_estoque) {
 
 		Optional<Estoque> estoqueFind = estoqueRepository.findById(id_estoque);
 		

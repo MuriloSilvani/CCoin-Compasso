@@ -83,7 +83,7 @@ public class TipoItemController {
 
 	@DeleteMapping("/{id_tipo_item}")
 	@Transactional
-	public ResponseEntity<TipoItem> deletarCargo(@PathVariable Long id_tipo_item) {
+	public ResponseEntity deletarCargo(@PathVariable Long id_tipo_item) {
 
 		Optional<TipoItem> tipo_item = tipoItemRepository.findById(id_tipo_item);
 		

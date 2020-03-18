@@ -2,9 +2,11 @@ package br.com.compasso.itens.controller.crud;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import br.com.compasso.itens.dto.TipoItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,20 +33,21 @@ public class TipoItemController {
 	TipoItemRepository tipoItemRepository;
 
 	@GetMapping("")
-	public ResponseEntity<List<TipoItem>> listarItens() {
+	public ResponseEntity<List<TipoItemDto>> listarTipoItens() {
 
-		List<TipoItem> tipos_itens = tipoItemRepository.findAll();
+		List<TipoItem> tiposItens = tipoItemRepository.findAll();
+		List<TipoItemDto> tiposItensDto = tiposItens.stream().map(TipoItemDto::new).collect(Collectors.toList());
 
-		return ResponseEntity.ok(tipos_itens);
+		return ResponseEntity.ok(tiposItensDto);
 	}
 
 	@GetMapping("/{id_tipo_item}")
-	public ResponseEntity<TipoItem> listarItem(@PathVariable Long id_tipo_item) {
+	public ResponseEntity<TipoItemDto> listarTipoItem(@PathVariable Long id_tipo_item) {
 
-		Optional<TipoItem> tipo_item = tipoItemRepository.findById(id_tipo_item);
+		Optional<TipoItem> tipoItem = tipoItemRepository.findById(id_tipo_item);
 
-		if (tipo_item.isPresent()) {
-			return ResponseEntity.ok(tipo_item.get());
+		if (tipoItem.isPresent()) {
+			return ResponseEntity.ok(new TipoItemDto(tipoItem.get()));
 		}
 		
 		return ResponseEntity.notFound().build();
@@ -52,30 +55,30 @@ public class TipoItemController {
 
 	@PostMapping("")
 	@Transactional
-	public ResponseEntity<TipoItem> cadastrarItem(@RequestBody @Valid TipoItemForm form) {
+	public ResponseEntity<TipoItemDto> cadastrarTipoItem(@RequestBody @Valid TipoItemForm form) {
 
-		Optional<TipoItem> tipo_item = tipoItemRepository.findByDescricao(form.getDescricao());
+		Optional<TipoItem> tipoItem = tipoItemRepository.findByDescricao(form.getDescricao());
 
-		if (tipo_item.isPresent()) {
-			return ResponseEntity.ok(tipo_item.get());
+		if (tipoItem.isPresent()) {
+			return ResponseEntity.ok(new TipoItemDto(tipoItem.get()));
 		}
 
-		TipoItem novoTipo_item = tipoItemRepository.save(new TipoItem(form.getDescricao()));
+		TipoItem novoTipoItem = tipoItemRepository.save(new TipoItem(form.getDescricao()));
 		
-		return ResponseEntity.created(null).body(novoTipo_item);
+		return ResponseEntity.created(null).body(new TipoItemDto(novoTipoItem));
 	}
 
 	@PutMapping("/{id_tipo_item}")
 	@Transactional
-	public ResponseEntity<TipoItem> editarCargo(@RequestBody @Valid TipoItemForm form, @PathVariable Long id_tipo_item) {
+	public ResponseEntity<TipoItemDto> editarTipoItem(@RequestBody @Valid TipoItemForm form, @PathVariable Long id_tipo_item) {
 		
-		Optional<TipoItem> tipo_item = tipoItemRepository.findById(id_tipo_item);
+		Optional<TipoItem> tipoItem = tipoItemRepository.findById(id_tipo_item);
 
-		if (tipo_item.isPresent()) {
+		if (tipoItem.isPresent()) {
 			
-			TipoItem tipo_itemNovo = form.atualizar(tipo_item.get(), tipoItemRepository);
+			TipoItem novoTipoItem = form.atualizar(tipoItem.get(), tipoItemRepository);
 			
-			return ResponseEntity.ok(tipo_itemNovo);
+			return ResponseEntity.ok(new TipoItemDto(novoTipoItem));
 		}
 		
 		return ResponseEntity.notFound().build();
@@ -83,17 +86,20 @@ public class TipoItemController {
 
 	@DeleteMapping("/{id_tipo_item}")
 	@Transactional
-	public ResponseEntity deletarCargo(@PathVariable Long id_tipo_item) {
+	public ResponseEntity deletarTipoItem(@PathVariable Long id_tipo_item) {
 
-		Optional<TipoItem> tipo_item = tipoItemRepository.findById(id_tipo_item);
+		Optional<TipoItem> tipoItem = tipoItemRepository.findById(id_tipo_item);
 		
-		if (tipo_item.isPresent()) {
+		if (tipoItem.isPresent()) {
+			int quantidadeTiposItensEstoque = tipoItem.get().getTiposItensEstoque().size();
 
-			tipoItemRepository.deleteById(id_tipo_item);
-			
-			return ResponseEntity.ok().build();
+			if (quantidadeTiposItensEstoque == 0) {
+				tipoItemRepository.deleteById(id_tipo_item);
+				return ResponseEntity.ok().build();
+			}
+
+			return ResponseEntity.badRequest().build();
 		}
-
 		return ResponseEntity.notFound().build();
 	}
 }

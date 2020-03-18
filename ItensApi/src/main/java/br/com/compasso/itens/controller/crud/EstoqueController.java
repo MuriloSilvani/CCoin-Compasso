@@ -2,9 +2,11 @@ package br.com.compasso.itens.controller.crud;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import br.com.compasso.itens.dto.EstoqueDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,22 +43,22 @@ public class EstoqueController {
 	TipoItemRepository tipoItemRepository;
 
 	@GetMapping("")
-	public ResponseEntity<List<Estoque>> listarItens() {
+	public ResponseEntity<List<EstoqueDto>> listarEstoque() {
 
 		List<Estoque> estoque = estoqueRepository.findAll();
 
-		return ResponseEntity.ok(estoque);
+		List<EstoqueDto> estoquesDto = estoque.stream().map(EstoqueDto::new).collect(Collectors.toList());
+
+		return ResponseEntity.ok(estoquesDto);
 	}
 
 	@GetMapping("/{id_estoque}")
-	public ResponseEntity<Estoque> listarItem(@PathVariable Long id_estoque) {
+	public ResponseEntity<EstoqueDto> listarItemEmEstoque(@PathVariable Long id_estoque) {
 
 		Optional<Estoque> estoque = estoqueRepository.findById(id_estoque);
 
 		if (estoque.isPresent()) {
-
-
-			return ResponseEntity.ok(estoque.get());
+			return ResponseEntity.ok(new EstoqueDto(estoque.get()));
 		}
 
 		return ResponseEntity.notFound().build();
@@ -64,9 +66,9 @@ public class EstoqueController {
 
 	@PostMapping("")
 	@Transactional
-	public ResponseEntity<Estoque> cadastrarItem(@RequestBody @Valid EstoqueForm form) {
+	public ResponseEntity<EstoqueDto> cadastrarEstoque(@RequestBody @Valid EstoqueForm form) {
 
-		// buscar se ja existe com o mesmo item e tipo de item pra so aumentar o disponivel ou algo assim
+		// TODO: buscar se ja existe com o mesmo item e tipo de item pra so aumentar o disponivel ou algo assim
 
 		Optional<Item> item = itemRepository.findById(form.getIdItem());
 		Optional<TipoItem> tipo_item = tipoItemRepository.findById(form.getIdTipoItem());
@@ -74,7 +76,7 @@ public class EstoqueController {
 		if(item.isPresent() && tipo_item.isPresent()) {
 			
 			Estoque estoque = estoqueRepository.save(new Estoque(form, itemRepository, tipoItemRepository));
-			return ResponseEntity.created(null).body(estoque);
+			return ResponseEntity.created(null).body(new EstoqueDto(estoque));
 		}
 		
 		return ResponseEntity.notFound().build();
@@ -82,7 +84,7 @@ public class EstoqueController {
 
 	@PutMapping("/{id_estoque}")
 	@Transactional
-	public ResponseEntity<Estoque> editarCargo(@RequestBody @Valid EstoqueForm form, @PathVariable Long id_estoque) {
+	public ResponseEntity<EstoqueDto> editarEstoque(@RequestBody @Valid EstoqueForm form, @PathVariable Long id_estoque) {
 
 		Optional<Estoque> estoqueFind = estoqueRepository.findById(id_estoque);
 		
@@ -90,7 +92,7 @@ public class EstoqueController {
 			
 			Estoque estoque = form.atualizar(estoqueFind.get(), itemRepository, tipoItemRepository);
 			
-			return ResponseEntity.ok(estoque);
+			return ResponseEntity.ok(new EstoqueDto(estoque));
 		}
 		
 		return ResponseEntity.notFound().build(); 
@@ -98,7 +100,7 @@ public class EstoqueController {
 
 	@DeleteMapping("/{id_estoque}")
 	@Transactional
-	public ResponseEntity<Estoque> deletarCargo(@PathVariable Long id_estoque) {
+	public ResponseEntity<Estoque> deletarEstoque(@PathVariable Long id_estoque) {
 
 		Optional<Estoque> estoqueFind = estoqueRepository.findById(id_estoque);
 		

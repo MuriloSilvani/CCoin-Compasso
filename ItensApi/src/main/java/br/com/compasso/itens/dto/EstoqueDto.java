@@ -20,4 +20,32 @@ public class EstoqueDto {
         this.valor = estoque.getValor();
         this.ativo = estoque.getAtivo();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public ItemDto getItem() {
+        return item;
+    }
+
+    public TipoItemDto getTipo_item() {
+        return tipo_item;
+    }
+
+    public int getQuantidade_reservado() {
+        return quantidade_reservado;
+    }
+
+    public int getQuantidade_disponivel() {
+        return quantidade_disponivel;
+    }
+
+    public float getValor() {
+        return valor;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
 }

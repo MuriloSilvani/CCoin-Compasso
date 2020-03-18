@@ -100,13 +100,12 @@ public class EstoqueController {
 
 	@DeleteMapping("/{id_estoque}")
 	@Transactional
-	public ResponseEntity deletarEstoque(@PathVariable Long id_estoque) {
+	public ResponseEntity inativarEstoque(@PathVariable Long id_estoque) {
 
-		Optional<Estoque> estoqueFind = estoqueRepository.findById(id_estoque);
+		Optional<Estoque> estoque = estoqueRepository.findById(id_estoque);
 		
-		if(estoqueFind.isPresent()) {
-			
-			estoqueRepository.deleteById(id_estoque);
+		if(estoque.isPresent()) {
+			estoque.get().setAtivo(false);
 			
 			return ResponseEntity.ok(null);
 		}

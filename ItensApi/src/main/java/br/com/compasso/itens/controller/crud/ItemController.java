@@ -2,9 +2,11 @@ package br.com.compasso.itens.controller.crud;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import br.com.compasso.itens.dto.ItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,11 +38,13 @@ public class ItemController {
 	private EstoqueRepository estoqueRepository;
 
 	@GetMapping("")
-	public ResponseEntity<List<Item>> listarItens() {
+	public ResponseEntity<List<ItemDto>> listarItens() {
 
 		List<Item> itens = itemRepository.findAll();
 
-		return ResponseEntity.ok(itens);
+		List<ItemDto> itensDto = itens.stream().map(ItemDto::new).collect(Collectors.toList());
+
+		return ResponseEntity.ok(itensDto);
 	}
 
 	@GetMapping("/{id_item}")

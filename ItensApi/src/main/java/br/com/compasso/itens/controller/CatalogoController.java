@@ -98,17 +98,4 @@ public class CatalogoController {
 		
 		return ResponseEntity.badRequest().build();
 	}
-	
-	@PutMapping("/statusEstoque/{id_estoque}")
-	@Transactional
-	public ResponseEntity<CatalogoDto> statusEstoque(@PathVariable Long id_estoque, @RequestBody @Valid CatalogoForm form) {
-		
-		Estoque estoque = estoqueRepository.getOne(id_estoque);
-		if(form.statusEstoque(estoque)) {
-			
-			return ResponseEntity.ok(new CatalogoDto(estoque));
-		};
-		
-		return ResponseEntity.badRequest().build();
-	}
 }

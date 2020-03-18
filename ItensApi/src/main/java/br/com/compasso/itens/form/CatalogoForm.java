@@ -49,13 +49,4 @@ public class CatalogoForm {
 		}
 		return false;
 	}
-
-	public boolean statusEstoque(Estoque estoque) {
-
-		System.out.println(estoque);
-		estoque.setAtivo(!estoque.getAtivo());
-		
-		return true;
-	}
-
 }

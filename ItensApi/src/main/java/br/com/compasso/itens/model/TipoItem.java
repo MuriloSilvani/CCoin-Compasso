@@ -1,15 +1,12 @@
 package br.com.compasso.itens.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tipos_itens")
-public class Tipos_itens {
+public class TipoItem {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +14,22 @@ public class Tipos_itens {
 	@Column(unique = true)
 	private String descricao;
 
-	public Tipos_itens() {
+	@OneToMany(mappedBy = "tipoItem")
+	private List<Estoque> tiposItensEstoque = new ArrayList<>();
+
+	public TipoItem() {
 
 	}
 
-	public Tipos_itens(String descricao) {
+	public List<Estoque> getTiposItensEstoque() {
+		return tiposItensEstoque;
+	}
+
+	public void setTiposItensEstoque(List<Estoque> tiposItensEstoque) {
+		this.tiposItensEstoque = tiposItensEstoque;
+	}
+
+	public TipoItem(String descricao) {
 		this.descricao = descricao;
 	}
 

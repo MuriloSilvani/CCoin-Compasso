@@ -2,9 +2,11 @@ package br.com.compasso.itens.controller.crud;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import br.com.compasso.itens.dto.ItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,38 +20,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.compasso.itens.form.ItensForm;
+import br.com.compasso.itens.form.ItemForm;
 import br.com.compasso.itens.model.Estoque;
-import br.com.compasso.itens.model.Itens;
+import br.com.compasso.itens.model.Item;
 import br.com.compasso.itens.repository.EstoqueRepository;
-import br.com.compasso.itens.repository.ItensRepository;
+import br.com.compasso.itens.repository.ItemRepository;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/itens")
-public class ItensController {
+public class ItemController {
 
 	@Autowired
-	private ItensRepository itensRepository;
+	private ItemRepository itemRepository;
 
 	@Autowired
 	private EstoqueRepository estoqueRepository;
 
 	@GetMapping("")
-	public ResponseEntity<List<Itens>> listarItens() {
+	public ResponseEntity<List<ItemDto>> listarItens() {
 
-		List<Itens> itens = itensRepository.findAll();
+		List<Item> itens = itemRepository.findAll();
 
-		return ResponseEntity.ok(itens);
+		List<ItemDto> itensDto = itens.stream().map(ItemDto::new).collect(Collectors.toList());
+
+		return ResponseEntity.ok(itensDto);
 	}
 
 	@GetMapping("/{id_item}")
-	public ResponseEntity<Itens> listarItem(@PathVariable Long id_item) {
+	public ResponseEntity<ItemDto> listarItem(@PathVariable Long id_item) {
 
-		Optional<Itens> item = itensRepository.findById(id_item);
+		Optional<Item> item = itemRepository.findById(id_item);
 
 		if (item.isPresent()) {
-			return ResponseEntity.ok(item.get());
+			return ResponseEntity.ok(new ItemDto(item.get()));
 		}
 
 		return ResponseEntity.notFound().build();
@@ -57,30 +61,30 @@ public class ItensController {
 
 	@PostMapping("")
 	@Transactional
-	public ResponseEntity<Itens> cadastrarItem(@RequestBody @Valid Itens form) {
+	public ResponseEntity<ItemDto> cadastrarItem(@RequestBody @Valid ItemForm itemForm) {
 
-		Optional<Itens> item = itensRepository.findByDescricao(form.getDescricao());
+		Optional<Item> item = itemRepository.findByDescricao(itemForm.getDescricao());
 
 		if (item.isPresent()) {
-			return ResponseEntity.ok(item.get());
+			return ResponseEntity.ok(new ItemDto(item.get()));
 		}
 
-		Itens novoItem = itensRepository.save(new Itens(form.getDescricao()));
+		Item novoItem = itemRepository.save(new Item(itemForm.getDescricao()));
 
-		return ResponseEntity.created(null).body(novoItem);
+		return ResponseEntity.created(null).body(new ItemDto(novoItem));
 	}
 
 	@PutMapping("/{id_item}")
 	@Transactional
-	public ResponseEntity<Itens> editarCargo(@RequestBody @Valid ItensForm form, @PathVariable Long id_item) {
+	public ResponseEntity<ItemDto> editarItem(@RequestBody @Valid ItemForm form, @PathVariable Long id_item) {
 
-		Optional<Itens> item = itensRepository.findById(id_item);
+		Optional<Item> item = itemRepository.findById(id_item);
 
 		if (item.isPresent()) {
 
-			Itens itemNovo = form.atualizar(item.get(), itensRepository);
+			Item novoItem = form.atualizar(item.get(), itemRepository);
 
-			return ResponseEntity.ok(itemNovo);
+			return ResponseEntity.ok(new ItemDto(novoItem));
 		}
 
 		return ResponseEntity.notFound().build();
@@ -88,23 +92,15 @@ public class ItensController {
 
 	@DeleteMapping("/{id_item}")
 	@Transactional
-	public ResponseEntity<Itens> deletarCargo(@PathVariable Long id_item) {
+	public ResponseEntity deletarItem(@PathVariable Long id_item) {
 
-		Optional<Itens> item = itensRepository.findById(id_item);
+		Optional<Item> item = itemRepository.findById(id_item);
 
 		if (item.isPresent()) {
-			List<Estoque> findAll = estoqueRepository.findAll();
-			int aux = 0;
-			
-			for (Estoque estoque : findAll) {
-				if (estoque.getId_item().getId() == item.get().getId()) {
-					aux = 1;
-				}
-			}
+			int quantidadeDeItens = item.get().getItensEstoque().size();
 
-			if (aux != 1) {
-
-				itensRepository.deleteById(id_item);
+			if (quantidadeDeItens == 0) {
+				itemRepository.deleteById(id_item);
 				return ResponseEntity.ok().build();
 			}
 

@@ -6,56 +6,58 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import br.com.compasso.itens.model.Estoque;
-import br.com.compasso.itens.model.Itens;
-import br.com.compasso.itens.model.Tipos_itens;
-import br.com.compasso.itens.repository.ItensRepository;
-import br.com.compasso.itens.repository.Tipos_itensRepository;
+import br.com.compasso.itens.model.Item;
+import br.com.compasso.itens.model.TipoItem;
+import br.com.compasso.itens.repository.ItemRepository;
+import br.com.compasso.itens.repository.TipoItemRepository;
 
 public class EstoqueForm {
 
 	@NotNull
-	private Long id_item;
+	private Long idItem;
 	@NotNull
-	private Long id_tipo_item;
-	@NotNull
-	@Min(0)
-	private int qtde_reservado;
+	private Long idTipoItem;
 	@NotNull
 	@Min(0)
-	private int qtde_disponivel;
+	private int quantidadeReservado;
+	@NotNull
+	@Min(0)
+	private int quantidadeDisponivel;
 	@NotNull
 	@Min(0)
 	private float valor;
 
-	public Long getId_item() {
-		return id_item;
+	public Long getIdItem() {
+		return idItem;
 	}
 
-	public Long getId_tipo_item() {
-		return id_tipo_item;
+	public Long getIdTipoItem() {
+		return idTipoItem;
 	}
 
-	public int getQtde_reservado() {
-		return qtde_reservado;
+	public int getQuantidadeReservado() {
+		return quantidadeReservado;
 	}
 
-	public int getQtde_disponivel() {
-		return qtde_disponivel;
+	public int getQuantidadeDisponivel() {
+		return quantidadeDisponivel;
 	}
 
 	public float getValor() {
 		return valor;
 	}
 	
-	public Estoque atualizar(Estoque estoque, ItensRepository itensRepository, Tipos_itensRepository tipos_itensRepository) {
+	public Estoque atualizar(Estoque estoque, ItemRepository itemRepository, TipoItemRepository tipoItemRepository) {
 
-		Optional<Itens> item = itensRepository.findById(this.id_item);
-		Optional<Tipos_itens> tipo_item = tipos_itensRepository.findById(this.id_tipo_item);
+		// TODO: warning aqui por usar .get() mas não .isPresent()
+
+		Optional<Item> item = itemRepository.findById(this.idItem);
+		Optional<TipoItem> tipoItem = tipoItemRepository.findById(this.idTipoItem);
 		
-		estoque.setId_item(item.get());
-		estoque.setId_tipo_item(tipo_item.get());
-		estoque.setQtde_reservado(this.qtde_reservado);
-		estoque.setQtde_disponivel(this.qtde_disponivel);
+		estoque.setItem(item.get());
+		estoque.setTipoItem(tipoItem.get());
+		estoque.setQuantidadeReservado(this.quantidadeReservado);
+		estoque.setQuantidadeDisponivel(this.quantidadeDisponivel);
 		estoque.setValor(this.valor);
 		
 		return estoque;

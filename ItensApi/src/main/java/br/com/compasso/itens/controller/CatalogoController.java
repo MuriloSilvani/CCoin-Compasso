@@ -28,7 +28,7 @@ import br.com.compasso.itens.repository.EstoqueRepository;
 @CrossOrigin
 @RestController
 @RequestMapping("/catalogo")
-public class catalogoController {
+public class CatalogoController {
 
 	@Autowired
 	private EstoqueRepository estoqueRepository;
@@ -92,19 +92,6 @@ public class catalogoController {
 		
 		Estoque estoque = estoqueRepository.getOne(id_estoque);
 		if(form.removeReservado(estoque)) {
-			
-			return ResponseEntity.ok(new CatalogoDto(estoque));
-		};
-		
-		return ResponseEntity.badRequest().build();
-	}
-	
-	@PutMapping("/statusEstoque/{id_estoque}")
-	@Transactional
-	public ResponseEntity<CatalogoDto> statusEstoque(@PathVariable Long id_estoque, @RequestBody @Valid CatalogoForm form) {
-		
-		Estoque estoque = estoqueRepository.getOne(id_estoque);
-		if(form.statusEstoque(estoque)) {
 			
 			return ResponseEntity.ok(new CatalogoDto(estoque));
 		};

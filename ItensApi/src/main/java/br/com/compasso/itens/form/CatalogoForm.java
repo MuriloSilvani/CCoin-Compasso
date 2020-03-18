@@ -8,23 +8,23 @@ import br.com.compasso.itens.model.Estoque;
 public class CatalogoForm {
 
 	@NotNull @Min(0)
-	private int qtde;
+	private int quantidade;
 
-	public int getQtde() {
-		return qtde;
+	public int getQuantidade() {
+		return quantidade;
 	}
 
 	public boolean addDisponivel(Estoque estoque) {
 
-		estoque.setQtde_disponivel(estoque.getQtde_disponivel() + this.qtde);
+		estoque.setQuantidadeDisponivel(estoque.getQuantidadeDisponivel() + this.quantidade);
 		return true;
 	}
 
 	public boolean removeDisponivel(Estoque estoque) {
 
-		if(estoque.getQtde_disponivel() - estoque.getQtde_reservado() >= this.qtde) {		
+		if(estoque.getQuantidadeDisponivel() - estoque.getQuantidadeReservado() >= this.quantidade) {
 			
-			estoque.setQtde_disponivel(estoque.getQtde_disponivel() - this.qtde);
+			estoque.setQuantidadeDisponivel(estoque.getQuantidadeDisponivel() - this.quantidade);
 			return true;
 		}
 		return false;
@@ -32,9 +32,9 @@ public class CatalogoForm {
 	
 	public boolean addReservado(Estoque estoque) {
 
-		if(estoque.getQtde_disponivel() - estoque.getQtde_reservado() >= this.qtde) {		
+		if(estoque.getQuantidadeDisponivel() - estoque.getQuantidadeReservado() >= this.quantidade) {
 			
-			estoque.setQtde_reservado(estoque.getQtde_reservado() + this.qtde);
+			estoque.setQuantidadeReservado(estoque.getQuantidadeReservado() + this.quantidade);
 			return true;
 		}
 		return false;
@@ -42,20 +42,11 @@ public class CatalogoForm {
 
 	public boolean removeReservado(Estoque estoque) {
 
-		if(estoque.getQtde_reservado() >= this.qtde) {		
+		if(estoque.getQuantidadeReservado() >= this.quantidade) {
 			
-			estoque.setQtde_reservado(estoque.getQtde_reservado() - this.qtde);
+			estoque.setQuantidadeReservado(estoque.getQuantidadeReservado() - this.quantidade);
 			return true;
 		}
 		return false;
 	}
-
-	public boolean statusEstoque(Estoque estoque) {
-
-		System.out.println(estoque);
-		estoque.setAtivo(!estoque.getAtivo());
-		
-		return true;
-	}
-
 }

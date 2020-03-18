@@ -1,27 +1,37 @@
 package br.com.compasso.itens.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "itens")
-public class Itens {
+public class Item {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@Column(unique = true)
 	private String descricao;
 
-	public Itens() {
+	@OneToMany(mappedBy = "item")
+	private List<Estoque> itensEstoque = new ArrayList<>();
+
+	public Item() {
 
 	}
 
-	public Itens(String descricao) {
+	public List<Estoque> getItensEstoque() {
+		return itensEstoque;
+	}
+
+	public void setItensEstoque(List<Estoque> itensEstoque) {
+		this.itensEstoque = itensEstoque;
+	}
+
+	public Item(String descricao) {
 		this.descricao = descricao;
 	}
 

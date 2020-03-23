@@ -1,5 +1,6 @@
 package br.com.compasso.resgatestransferencias.controller;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class TransferenciaController {
 	private Status_requerimentosRepository status_requerimentosRepository;
 
 	@PutMapping("/{id_usuario}")
+	@Transactional
 	public ResponseEntity<TransferiuDto> transferir(@PathVariable Long id_usuario,
 			@RequestBody @Valid TransfereForm form) {
 
@@ -43,6 +45,8 @@ public class TransferenciaController {
 
 			Transferencias transferencia = transferenciasRepository
 					.save(new Transferencias(new TransferenciasForm(id_usuario, form)));
+			
+			System.out.println(transferencia.getId());
 
 			int status = 5;
 

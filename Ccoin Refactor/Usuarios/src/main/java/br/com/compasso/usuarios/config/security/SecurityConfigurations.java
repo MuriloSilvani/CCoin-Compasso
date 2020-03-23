@@ -47,17 +47,15 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/").permitAll()
-		.antMatchers(HttpMethod.POST, "/login").permitAll()
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/").permitAll().antMatchers(HttpMethod.POST, "/login")
+				.permitAll()
 //				.antMatchers(HttpMethod.GET, "/saldo/*").authenticated()
-				
+
 //				.anyRequest().hasAuthority("Gerente")
 				.anyRequest().authenticated()
 //				.anyRequest().permitAll()
-				.and().csrf().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository),
+				.and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository),
 						UsernamePasswordAuthenticationFilter.class);
 
 	}
@@ -65,6 +63,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	// Configuração de recursos estaticos
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		
+		web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**",
+				"/swagger-resources/**");
 	}
 }

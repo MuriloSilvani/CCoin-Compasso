@@ -13,7 +13,7 @@ import br.com.compasso.itens.model.TiposItem;
 
 public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
 
-	@Query("SELECT est FROM Estoque est WHERE qtde_disponivel > 0 AND qtde_disponivel > qtde_reservado AND ativo = 1")
+	@Query("SELECT est FROM Estoque est WHERE qtde_disponivel > 0 AND qtde_disponivel > qtde_reservado AND ativo = true")
 	Page<Estoque> buscaDisponiveis(Pageable paginacao);
 
 	List<Estoque> findByItem(Itens item);

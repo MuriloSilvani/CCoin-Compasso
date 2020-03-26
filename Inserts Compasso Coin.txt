@@ -1,0 +1,21 @@
+INSERT INTO `cargos`(descricao) VALUES ('Programador'),('Analista de sistema'),('Arquiteto de software'),('Product Owner'),('Gerente de Projeto');
+SELECT * FROM cargos;
+
+INSERT INTO `niveis_acesso`(descricao) VALUES ('Administrador'),('Usu�rio');
+SELECT * FROM niveis_acesso;
+
+INSERT INTO `unidades`(uf, cidade, endereco) VALUES ('SC','Chapec�','Rua bar�o do rio branco, 4002E, Centro'),('RS','Porto Alegre','Rua gaivota azul, 57D, Sala 404, Centro');
+SELECT * FROM unidades;
+
+INSERT INTO `usuarios`(login,email,senha,nome,id_nivel_acesso,id_cargo,id_unidade,responsavel_unidade,credito) VALUES ('vitor','vitor@compasso.com.br','$2a$10$QxwPGl1atijQhTDPvH50EuTwVgcwhDbgLauVYoniEv5iEyBweITia','Vitor Apolin�rio',1,1,1,0,0),('thiago','thiago@compasso.com.br','$2a$10$QxwPGl1atijQhTDPvH50EuTwVgcwhDbgLauVYoniEv5iEyBweITia','Thiago Andrade',1,1,1,0,0),('paula','paula@compasso.com.br','$2a$10$QxwPGl1atijQhTDPvH50EuTwVgcwhDbgLauVYoniEv5iEyBweITia','Paula Greiner',1,2,1,0,0),('murilo','murilo@compasso.com.br','$2a$10$QxwPGl1atijQhTDPvH50EuTwVgcwhDbgLauVYoniEv5iEyBweITia','Murilo Silvani',2,4,2,0,0),('leonardo','leonardo@compasso.com.br','$2a$10$QxwPGl1atijQhTDPvH50EuTwVgcwhDbgLauVYoniEv5iEyBweITia','Leonardo Pieta',1,3,1,0,0),('giohanna','giohanna@compasso.com.br','$2a$10$QxwPGl1atijQhTDPvH50EuTwVgcwhDbgLauVYoniEv5iEyBweITia','Giohanna',2,1,2,0,0),('nicolas','nicolas@compasso.com.br','$2a$10$QxwPGl1atijQhTDPvH50EuTwVgcwhDbgLauVYoniEv5iEyBweITia','Nicolas',2,3,2,0,0),('jonathan','jonathan@compasso.com.br','$2a$10$QxwPGl1atijQhTDPvH50EuTwVgcwhDbgLauVYoniEv5iEyBweITia','Jonathan',1,2,1,0,0),('matheus','matheus@compasso.com.br','$2a$10$QxwPGl1atijQhTDPvH50EuTwVgcwhDbgLauVYoniEv5iEyBweITia','Matheus',1,3,1,0,0),('yuri','yuri@compasso.com.br','$2a$10$QxwPGl1atijQhTDPvH50EuTwVgcwhDbgLauVYoniEv5iEyBweITia','Yuri',1,1,1,0,0),('guilherme','guilherme@compasso.com.br','$2a$10$QxwPGl1atijQhTDPvH50EuTwVgcwhDbgLauVYoniEv5iEyBweITia','Guilherme Henrique Piasson',2,5,1,0,1);
+SELECT * FROM usuarios;
+
+
+INSERT INTO `itens`(descricao) VALUES ('CAMISETA COMPASSO DAY'),('CAMISETA CERTIFICADO'),('CAMISETA BLACK FRIDAY'),('CAMISETA DO TIME'),('CANECA COMPASSO DAY'),('CANECA CERTIFICADO'),('CANETA COMPASSO DAY'),('CHAVEIRO COMPASSO DAY'),('CHAVEIRO DO TIME'),('CALENDRÁRIO 2020'),('AGENDA 2020'),('HOME OFFICE'),('FOLGA');
+SELECT * FROM itens;
+
+INSERT INTO `tipos_itens`(descricao) VALUES ('BB P'),('BB M'),('BB G'),('TS P'),('TS M'),('TS G'),('TS GG'),('TS EG'),('POLO P'),('POLO M'),('POLO G'),('POLO GG'),('POLO EG'),('PORCELANA'),('CAPA DURA'),('CAPA SIMPLES'),('ESFEROGRÁFICA'),('MEIO PERÍODO'),('PERÍODO INTEGRAL'),('ABRIDOR'),('LOGO'),('CORTADOR'),('MESA'),('PAREDE'),('IMÃ');
+SELECT * FROM tipos_itens;
+
+INSERT INTO `estoque`(id_item, id_tipo_item, valor) VALUES (2,50,50),(1,1,70),(1,1,80),(2,2,50),(2,1,60),(2,1,60),(2,2,70),(3,2,100),(3,1,100),(3,1,100),(3,2,80),(4,2,50),(4,1,40),(4,1,40),(4,2,30),(4,1,30),(4,1,60),(4,2,30),(4,2,20),(4,2,20),(4,2,30),(4,2,20),(5,2,30),(6,3,30),(7,5,50),(8,5,40),(8,3,50),(8,5,50),(9,4,20),(10,5,60),(10,10,60),(10,20,80),(11,20,100),(11,30,150);
+SELECT * FROM estoque;
